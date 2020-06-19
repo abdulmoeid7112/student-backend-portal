@@ -18,3 +18,4 @@ func (s *Student) Map() map[string]interface{} {
 func (s *Student) Names() []string {
 	return structs.Names(s)
 }
+
