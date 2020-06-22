@@ -1,5 +1,3 @@
-all: test
-
 test: check
 	bash ./scripts/test.sh
 

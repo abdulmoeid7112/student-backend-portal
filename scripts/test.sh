@@ -1,5 +1,5 @@
 #!/bin/bash
 
 # To Test the code
-go test ./...
+go test -v ./...
 
