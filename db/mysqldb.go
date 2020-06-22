@@ -1,27 +1,28 @@
 package db
 
 import (
+	"../config"
+	"../models"
 	"database/sql"
 	"errors"
 	"fmt"
-	"log"
 	guuid "github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"../config"
-	"../models"
+	"log"
 )
 
 var UserNotFoundError = errors.New("User not found")
 var FailedError = errors.New("failed to connect...")
 var FailedAdd = errors.New("failed to add...")
 var FailedUpdate = errors.New("failed to update...")
+var FailedDelete = errors.New("failed to delete...")
 
 type DataStore interface {
 	AddStudent(student *models.Student) (string, error)
 	UpdateStudent(student *models.Student) error
 	GetStudentByID(id string) (*models.Student, error)
 	ListStudent() (*[]models.Student, error)
-	GetStudentEmployee(stype string) (*[]models.Student, error)
+	RemoveStudentByID(id string) error
 }
 
 type mysqlStd struct {
@@ -35,8 +36,8 @@ func (m mysqlStd) AddStudent(student *models.Student) (string, error) {
 	student.ID = guuid.New().String()
 
 	if _, err := m.db.NamedExec(fmt.Sprintf(`INSERT INTO 
-		Student (ID,Name,Age,Level,Phone,Type) 
-		VALUES(:ID,:Name,:Age,:Level,:Phone,:Type)`),
+		Student (id,name,age,level,phone) 
+		VALUES(:id,:name,:age,:level,:phone)`),
 		student); err != nil {
 		return "", FailedAdd
 	}
@@ -45,8 +46,8 @@ func (m mysqlStd) AddStudent(student *models.Student) (string, error) {
 
 func (m mysqlStd) UpdateStudent(student *models.Student) error {
 	if _, err := m.db.NamedExec(fmt.Sprintf(`UPDATE Student SET 
-	ID=:ID, Age=:Age, Level=:Level, Phone=:Phone, Type=:Type
-	WHERE Name=:Name`), student); err != nil {
+	id=:id, age=:age, level=:level, phone=:phone
+	WHERE name=:name`), student); err != nil {
 		return FailedUpdate
 	}
 	return nil
@@ -54,7 +55,7 @@ func (m mysqlStd) UpdateStudent(student *models.Student) error {
 
 func (m mysqlStd) GetStudentByID(id string) (*models.Student, error) {
 	var std models.Student
-	if err := m.db.Get(&std, fmt.Sprintf(`SELECT * FROM Student WHERE ID='%s'`, id)); err != nil {
+	if err := m.db.Get(&std, fmt.Sprintf(`SELECT * FROM Student WHERE id='%s'`, id)); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, UserNotFoundError
 		}
@@ -73,26 +74,17 @@ func (m mysqlStd) ListStudent() (*[]models.Student, error) {
 		return nil, err
 	}
 	for i := 0; i < len(std); i++ {
-		fmt.Printf("%v\n", std[5].Map())
+		fmt.Printf("%v\n", std[i].Map())
 	}
 
 	return &std, nil
 }
-
-func (m mysqlStd) GetStudentEmployee(stype string) (*[]models.Student, error) {
-	var std []models.Student
-	if err := m.db.Select(&std, fmt.Sprintf(`SELECT * FROM Student WHERE Type='%s'`, stype)); err != nil {
-		if err == sql.ErrNoRows {
-			return nil, UserNotFoundError
-		}
-		return nil, err
+func (m mysqlStd) RemoveStudentByID(id string) error {
+	if _, err := m.db.Query(fmt.Sprintf(`DELETE FROM Student WHERE id= '%s'`, id)); err != nil {
+		return FailedDelete
 	}
 
-	for i := 0; i < len(std); i++ {
-		fmt.Printf("%v\n", std[5].Map())
-	}
-
-	return &std, nil
+	return nil
 }
 
 type DataStoreFactory func() (DataStore, error)

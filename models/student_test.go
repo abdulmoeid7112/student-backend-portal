@@ -24,7 +24,7 @@ func TestStudent_Map(t *testing.T) {
 			fields: fields{
 				ID:    "1234",
 				Name:  "Moeid",
-				Age:    21,
+				Age:   21,
 				Level: "Bachelor",
 				Phone: "030051278936",
 			},
@@ -72,7 +72,7 @@ func TestStudent_Names(t *testing.T) {
 			fields: fields{
 				ID:    "1234",
 				Name:  "Moeid",
-				Age:    21,
+				Age:   21,
 				Level: "Bachelor",
 				Phone: "030051278936",
 			},
@@ -94,4 +94,3 @@ func TestStudent_Names(t *testing.T) {
 		})
 	}
 }
-

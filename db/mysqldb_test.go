@@ -1,11 +1,11 @@
 package db
 
 import (
+	"../models"
+	"github.com/jmoiron/sqlx"
 	"os"
 	"reflect"
 	"testing"
-	"github.com/jmoiron/sqlx"
-	"../models"
 )
 
 func Test_mysqlStd_AddStudent(t *testing.T) {
@@ -28,11 +28,10 @@ func Test_mysqlStd_AddStudent(t *testing.T) {
 		{
 			name: "success - add student in db",
 			args: args{student: &models.Student{
-				Name:  "Usman",
-				Age:   "21",
+				Name:  "Moeid",
+				Age:   22,
 				Level: "Bachelor",
-				Phone: "030051278936",
-				Type:  "Student",
+				Phone: "03005124896",
 			}},
 			wantErr: false,
 		},
@@ -41,10 +40,10 @@ func Test_mysqlStd_AddStudent(t *testing.T) {
 			args: args{student: &models.Student{
 				ID:    "1234",
 				Name:  "Moeid",
-				Age:   "21",
+				Age:   21,
 				Level: "Bachelor",
 				Phone: "030051278936",
-				Type:  "Employee"}},
+			}},
 			wantErr: true,
 		},
 	}
@@ -61,6 +60,48 @@ func Test_mysqlStd_AddStudent(t *testing.T) {
 	}
 }
 
+func Test_mysqlStd_UpdateStudent(t *testing.T) {
+	os.Setenv("DB_PORT", "3306")
+	os.Setenv("DB_HOST", "student_portal")
+	os.Setenv("DB_USER", "root")
+
+	type fields struct {
+		db *sqlx.DB
+	}
+	type args struct {
+		student *models.Student
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "success - update records",
+			args: args{student: &models.Student{
+				ID:    "1234",
+				Name:  "Moeid",
+				Age:    23,
+				Level: "Master",
+				Phone: "03308265772",
+			},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m, _ := NewMysqlfactory()
+			err := m.UpdateStudent(tt.args.student)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("UpdateStudent() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
+	}
+}
+
+
 func Test_mysqlStd_GetStudentByID(t *testing.T) {
 
 	os.Setenv("DB_PORT", "3306")
@@ -76,10 +117,10 @@ func Test_mysqlStd_GetStudentByID(t *testing.T) {
 	student := &models.Student{
 		ID:    "1234",
 		Name:  "Moeid",
-		Age:   "21",
-		Level: "Bachelor",
-		Phone: "030051278936",
-		Type:  "Employee"}
+		Age:    23,
+		Level: "Master",
+		Phone: "03308265772",
+	}
 	tests := []struct {
 		name    string
 		args    args
@@ -103,41 +144,6 @@ func Test_mysqlStd_GetStudentByID(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetStudent() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func Test_mysqlStd_GetStudentEmployee(t *testing.T) {
-
-	os.Setenv("DB_PORT", "3306")
-	os.Setenv("DB_HOST", "student_portal")
-	os.Setenv("DB_USER", "root")
-
-	type fields struct {
-		db *sqlx.DB
-	}
-	type args struct {
-		stype string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantErr bool
-	}{
-		{
-			name:    "success - get students by Type",
-			args:    args{stype: "Employee"},
-			wantErr: false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			m, _ := NewMysqlfactory()
-			_, err := m.GetStudentEmployee(tt.args.stype)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetStudentEmployee() error = %v, wantErr %v", err, tt.wantErr)
-				return
 			}
 		})
 	}
@@ -173,7 +179,8 @@ func Test_mysqlStd_ListStudent(t *testing.T) {
 	}
 }
 
-func Test_mysqlStd_UpdateStudent(t *testing.T) {
+func Test_mysqlStd_RemoveStudentByID(t *testing.T) {
+
 	os.Setenv("DB_PORT", "3306")
 	os.Setenv("DB_HOST", "student_portal")
 	os.Setenv("DB_USER", "root")
@@ -182,7 +189,7 @@ func Test_mysqlStd_UpdateStudent(t *testing.T) {
 		db *sqlx.DB
 	}
 	type args struct {
-		student *models.Student
+		id string
 	}
 	tests := []struct {
 		name    string
@@ -190,24 +197,16 @@ func Test_mysqlStd_UpdateStudent(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "success - update records",
-			args: args{student: &models.Student{
-				ID:    "1234",
-				Name:  "Moeid",
-				Age:   "21",
-				Level: "Bachelor",
-				Phone: "030051278936",
-				Type:  "Employee"}},
+			name:    "success - delete student from db",
+			args:    args{id: "1234"},
 			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m, _ := NewMysqlfactory()
-			err := m.UpdateStudent(tt.args.student)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("UpdateStudent() error = %v, wantErr %v", err, tt.wantErr)
-				return
+			if err := m.RemoveStudentByID(tt.args.id); (err != nil) != tt.wantErr {
+				t.Errorf("RemoveStudentBy() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
