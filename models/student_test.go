@@ -12,6 +12,7 @@ func TestStudent_Map(t *testing.T) {
 		Age   int
 		Level string
 		Phone string
+		Type  string
 	}
 	tests := []struct {
 		name   string
@@ -23,7 +24,7 @@ func TestStudent_Map(t *testing.T) {
 			fields: fields{
 				ID:    "1234",
 				Name:  "Moeid",
-				Age:   21,
+				Age:    21,
 				Level: "Bachelor",
 				Phone: "030051278936",
 			},
@@ -59,6 +60,7 @@ func TestStudent_Names(t *testing.T) {
 		Age   int
 		Level string
 		Phone string
+		Type  string
 	}
 	tests := []struct {
 		name   string
@@ -70,7 +72,7 @@ func TestStudent_Names(t *testing.T) {
 			fields: fields{
 				ID:    "1234",
 				Name:  "Moeid",
-				Age:   21,
+				Age:    21,
 				Level: "Bachelor",
 				Phone: "030051278936",
 			},
@@ -92,3 +94,4 @@ func TestStudent_Names(t *testing.T) {
 		})
 	}
 }
+
