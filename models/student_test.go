@@ -7,8 +7,9 @@ import (
 
 func TestStudent_Map(t *testing.T) {
 	type fields struct {
+		ID    string
 		Name  string
-		Age   int32
+		Age   int
 		Level string
 		Phone string
 	}
@@ -18,24 +19,27 @@ func TestStudent_Map(t *testing.T) {
 		want   map[string]interface{}
 	}{
 		{
-			name: "success",
+			name: "success-student",
 			fields: fields{
+				ID:    "1234",
 				Name:  "Moeid",
 				Age:   21,
 				Level: "Bachelor",
 				Phone: "030051278936",
 			},
 			want: map[string]interface{}{
-				"Name":  "Moeid",
-				"Age":   21,
-				"Level": "Bachelor",
-				"Phone": "030051278936",
+				"id":    "1234",
+				"name":  "Moeid",
+				"age":   21,
+				"level": "Bachelor",
+				"phone": "030051278936",
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := &Student{
+				ID:    tt.fields.ID,
 				Name:  tt.fields.Name,
 				Age:   tt.fields.Age,
 				Level: tt.fields.Level,
@@ -50,8 +54,9 @@ func TestStudent_Map(t *testing.T) {
 
 func TestStudent_Names(t *testing.T) {
 	type fields struct {
+		ID    string
 		Name  string
-		Age   int32
+		Age   int
 		Level string
 		Phone string
 	}
@@ -63,17 +68,19 @@ func TestStudent_Names(t *testing.T) {
 		{
 			name: "success",
 			fields: fields{
+				ID:    "1234",
 				Name:  "Moeid",
 				Age:   21,
 				Level: "Bachelor",
 				Phone: "030051278936",
 			},
-			want: []string{"Name", "Age", "Level", "Phone"},
+			want: []string{"id", "name", "age", "level", "phone"},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := &Student{
+				ID:    tt.fields.ID,
 				Name:  tt.fields.Name,
 				Age:   tt.fields.Age,
 				Level: tt.fields.Level,
@@ -85,4 +92,3 @@ func TestStudent_Names(t *testing.T) {
 		})
 	}
 }
-
