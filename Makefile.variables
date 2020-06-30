@@ -1,0 +1,17 @@
+export PROJECT = student-backend-portal
+IMPORT_PATH := ${PROJECT}
+
+# all non-windows environments
+ROOT := $(shell pwd)
+
+DEV_IMAGE := ${PROJECT}_dev
+
+DOCKRUN := docker run --rm \
+	-v ${ROOT}:/... \
+	${DEV_IMAGE}
+
+DOCKTEST := docker run --rm \
+    -v ${ROOT}:/... \
+    --link student-portal-mysql:student-portal-mysql \
+    ${DEV_IMAGE}
+

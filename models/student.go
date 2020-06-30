@@ -4,6 +4,7 @@ import (
 	"github.com/fatih/structs"
 )
 
+// Student structs.
 type Student struct {
 	ID    string `json:"id" structs:"id" db:"id"`
 	Name  string `json:"name" structs:"name" db:"name"`
@@ -12,10 +13,12 @@ type Student struct {
 	Phone string `json:"phone" structs:"phone" db:"phone"`
 }
 
+// Map function returns map values.
 func (s *Student) Map() map[string]interface{} {
 	return structs.Map(s)
 }
 
+// Names function returns field names.
 func (s *Student) Names() []string {
 	fields := structs.Fields(s)
 	names := make([]string, len(fields))
@@ -29,3 +32,4 @@ func (s *Student) Names() []string {
 	}
 	return names
 }
+
