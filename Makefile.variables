@@ -12,6 +12,7 @@ DOCKRUN := docker run --rm \
 
 DOCKTEST := docker run --rm \
     -v ${ROOT}:/... \
-    --link student-portal-mysql:student-portal-mysql \
+    --link student-portal-mongo-db:student-portal-mongo-db \
+    --link student-portal-mysql-db:student-portal-mysql-db \
     ${DEV_IMAGE}
 
