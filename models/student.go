@@ -6,11 +6,11 @@ import (
 
 // Student structs.
 type Student struct {
-	ID    string `json:"id" structs:"id" db:"id"`
-	Name  string `json:"name" structs:"name" db:"name"`
-	Age   int    `json:"age" structs:"age" db:"age"`
-	Level string `json:"level" structs:"level" db:"level"`
-	Phone string `json:"phone" structs:"phone" db:"phone"`
+	ID    string `json:"id" structs:"id" bson:"_id" db:"id"`
+	Name  string `json:"name" structs:"name" bson:"name" db:"name"`
+	Age   int    `json:"age" structs:"age" bson:"age" db:"age"`
+	Level string `json:"level" structs:"level" bson:"level" db:"level"`
+	Phone string `json:"phone" structs:"phone" bson:"phone" db:"phone"`
 }
 
 // Map function returns map values.
@@ -32,4 +32,3 @@ func (s *Student) Names() []string {
 	}
 	return names
 }
-

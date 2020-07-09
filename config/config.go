@@ -29,11 +29,9 @@ func init() {
 	_ = viper.BindEnv(ServerPort, "SERVER_PORT")
 
 	// defaults
-	viper.SetDefault(DbName, "student-portal")
+	viper.SetDefault(DbName, "student_portal")
 	viper.SetDefault(DbHost, "localhost")
 	viper.SetDefault(DbPort, "3306")
-
 	viper.SetDefault(ServerHost, "127.0.0.1")
 	viper.SetDefault(ServerPort, "8080")
 }
-
