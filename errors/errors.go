@@ -28,3 +28,4 @@ func NewAPIError(errType string, message string) *APIError {
 		message: message,
 	}
 }
+

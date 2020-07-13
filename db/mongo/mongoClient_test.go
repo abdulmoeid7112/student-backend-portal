@@ -224,13 +224,13 @@ func Test_mongoStd_ListStudent(t *testing.T) {
 		},
 		{
 			name:    "success- list all students with name level",
-			args:    args{filter: map[string]interface{}{"name": "Sohaib","level": "Master"}, lim: 1, off: 0},
+			args:    args{filter: map[string]interface{}{"name": "Sohaib", "level": "Master"}, lim: 1, off: 0},
 			want:    []*models.Student{student1},
 			wantErr: false,
 		},
 		{
 			name:    "fail- list all students with name level",
-			args:    args{filter: map[string]interface{}{"name": "Aftab","level": "Master"}, lim: 1, off: 0},
+			args:    args{filter: map[string]interface{}{"name": "Aftab", "level": "Master"}, lim: 1, off: 0},
 			want:    nil,
 			wantErr: false,
 		},
@@ -269,9 +269,10 @@ func Test_mongoStd_ListStudent(t *testing.T) {
 
 			if diff := cmp.Diff(got, tt.want); diff != "" {
 				t.Errorf("ListStudent() got = %v, want = %v,diff = %s, error = %v", got, tt.want, diff, err)
-			}else {
+			} else {
 				log().Info(got)
 			}
 		})
 	}
 }
+
