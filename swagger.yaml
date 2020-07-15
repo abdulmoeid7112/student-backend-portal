@@ -1,0 +1,145 @@
+---
+swagger: "2.0"
+info:
+  description: "Student Backend Portal"
+  version: "0.0.1"
+  title: "Portal System"
+host: "localhost:8080"
+basePath: "/"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /student:
+    get:
+      operationId: "ListStudents"
+      parameters:
+        - in: "query"
+          name: "name"
+          description: "filter's details"
+          type: "string"
+        - in: "query"
+          name: "age"
+          description: "filter's details"
+          type: "integer"
+        - in: "query"
+          name: "level"
+          description: "filter's details"
+          type: "string"
+        - in: "query"
+          name: "phone"
+          description: "filter's details"
+          type: "string"
+        - in: "query"
+          name: "offset"
+          description: "The number of items to skip before starting to collect the result set"
+          type: "integer"
+        - in: "query"
+          name: "limit"
+          description: "The numbers of items to return"
+          type: "integer"
+      description: "get all the students"
+      responses:
+        200:
+          description: "student response"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/student"
+        500:
+          description: "internal server error"
+    post:
+      operationId: "addStudent"
+      parameters:
+        - in: "body"
+          name: "student"
+          description: "student's details"
+          required: false
+          schema:
+            $ref: "#/definitions/student"
+      responses:
+        201:
+          description: "student added"
+          schema:
+            $ref: "#/definitions/student"
+        409:
+          description: "student already exists"
+        500:
+          description: "internal server error"
+  /student/{ID}:
+    put:
+      operationId: "updateStudent"
+      parameters:
+        - in: "path"
+          type: "string"
+          name: "ID"
+          required: true
+          description: "UUID of the student"
+        - in: "body"
+          name: "student"
+          description: "student's details"
+          required: false
+          schema:
+            $ref: "#/definitions/student"
+      responses:
+        200:
+          description: "student updated"
+          schema:
+            $ref: "#/definitions/student"
+        500:
+          description: "internal server error"
+
+    delete:
+      operationId: "DeleteStudent"
+      parameters:
+        - in: "path"
+          name: "ID"
+          type: "string"
+          description: "UUID of the student"
+          required: true
+      description: "delete student with id provided in url"
+      responses:
+        204:
+          description: "student deleted"
+        404:
+          description: "student not found"
+        500:
+          description: "internal server error"
+
+    get:
+      operationId: "getStudent"
+      parameters:
+        - in: "path"
+          type: "string"
+          name: "ID"
+          required: true
+          description: "UUID of the student"
+      description: "return student based on UUID"
+      responses:
+        200:
+          description: "student response"
+          schema:
+            $ref: "#/definitions/student"
+        404:
+          description: "student not found"
+        500:
+          description: "internal server error"
+
+definitions:
+  student:
+    type: "object"
+    properties:
+      ID:
+        type: "string"
+      Name:
+        type: "string"
+      Age:
+        type: "integer"
+      Level:
+        type: "string"
+      Phone:
+        type: "string"
+

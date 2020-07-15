@@ -20,7 +20,7 @@ run:
   # default value is empty list, but next dirs are always skipped independently
   # from this option's value:
   #     vendor$, third_party$, testdata$, examples$, Godeps$, builtin$
-  skip-dirs: [pkg,tmp,bin]
+  skip-dirs: [gen,pkg,bin,tmp]
 
   # which files to skip: they will be analyzed, but issues from them
   # won't be reported. Default value is empty list, but there is
@@ -131,6 +131,7 @@ linters:
     - wsl
     - godox
     - errcheck
+    - testpackage
     - gofumpt
     - sqlclosecheck
   # disable-all: false
@@ -147,6 +148,8 @@ issues:
   exclude:
     - Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*printf?|os\.(Un)?Setenv). is not checked
     - lines are duplicate of.*_test\.go
+    - gen
+
 
   # Independently from option `exclude` we use default exclude patterns,
   # it can be disabled by this option. To list all

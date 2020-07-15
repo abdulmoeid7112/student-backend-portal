@@ -102,3 +102,4 @@ func (m client) RemoveStudentByID(id string) error {
 
 	return nil
 }
+

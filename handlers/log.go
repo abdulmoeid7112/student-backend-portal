@@ -1,4 +1,4 @@
-package mysql
+package handlers
 
 import (
 	logger "github.com/sirupsen/logrus"
@@ -10,7 +10,7 @@ func log() *logger.Entry {
 	})
 
 	return logger.WithFields(logger.Fields{
-		"package": "mysql",
+		"package": "handlers",
 	})
 }
 

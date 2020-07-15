@@ -38,3 +38,6 @@ db_prepare: db_start
 db_stop:
 	bash ./scripts/db_stop.sh
 
+codegen: prepare
+	${DOCKRUN} bash ./scripts/swagger.sh
+
