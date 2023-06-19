@@ -32,7 +32,7 @@ func init() {
 	viper.SetDefault(DbName, "student_portal")
 	viper.SetDefault(DbHost, "localhost")
 	viper.SetDefault(DbPort, "27017")
-	viper.SetDefault(ServerHost, "127.0.0.1")
+	viper.SetDefault(ServerHost, "0.0.0.0")
 	viper.SetDefault(ServerPort, "8080")
 }
 
