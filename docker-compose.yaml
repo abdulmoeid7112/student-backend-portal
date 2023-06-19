@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - database
+    container_name: student-backend
+    environment:
+      - 'DB_PORT=27017'
+      - 'DB_HOST=database'
+  database:
+    image: mongo:4.2.0
+    container_name: student-backend-mongo-db
+    ports:
+      - "27017:27017"
